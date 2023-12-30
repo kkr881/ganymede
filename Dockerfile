@@ -1,4 +1,4 @@
-FROM golang:1.20 AS build-stage-01
+FROM golang:1.21 AS build-stage-01
 
 RUN mkdir /app
 ADD . /app
@@ -12,16 +12,15 @@ RUN apk add --update --no-cache unzip git
 
 WORKDIR /tmp
 RUN wget https://github.com/rsms/inter/releases/download/v3.19/Inter-3.19.zip && unzip Inter-3.19.zip
-RUN wget https://github.com/lay295/TwitchDownloader/releases/download/1.53.2/TwitchDownloaderCLI-1.53.2-LinuxAlpine-x64.zip && unzip TwitchDownloaderCLI-1.53.2-LinuxAlpine-x64.zip
+RUN wget https://github.com/lay295/TwitchDownloader/releases/download/1.53.6/TwitchDownloaderCLI-1.53.6-LinuxAlpine-x64.zip && unzip TwitchDownloaderCLI-1.53.6-LinuxAlpine-x64.zip
 
 RUN git clone https://github.com/xenova/chat-downloader.git
 
 FROM alpine:latest AS production
 
 # install packages
-RUN apk add --update --no-cache python3 fontconfig icu-libs python3-dev gcc g++ ffmpeg bash tzdata shadow su-exec && ln -sf python3 /usr/bin/python
-RUN python3 -m ensurepip
-RUN pip3 install --no-cache --upgrade pip streamlink
+RUN apk add --update --no-cache python3 fontconfig icu-libs python3-dev gcc g++ ffmpeg bash tzdata shadow su-exec py3-pip && ln -sf python3 /usr/bin/python
+RUN pip3 install --no-cache --upgrade pip streamlink --break-system-packages
 
 # setup user
 RUN groupmod -g 1000 users && \
