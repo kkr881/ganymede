@@ -3,9 +3,9 @@ on:
   push:
     tags:
       - v*
-    branches: ["archive-panic-fix"]
+    branches: ["main"]
   pull_request:
-    branches: ["archive-panic-fix"]
+    branches: ["main"]
 
 permissions:
   contents: read
