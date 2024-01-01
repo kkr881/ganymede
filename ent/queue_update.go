@@ -975,9 +975,11 @@ func (quo *QueueUpdateOne) Save(ctx context.Context) (*Queue, error) {
 func (quo *QueueUpdateOne) SaveX(ctx context.Context) *Queue {
 	node, err := quo.Save(ctx)
 	if err != nil {
-		panic(err)
+		log.Error().Err(err).Msg("error queue update saveX")
+		// panic(err)
+	} else {
+		return node
 	}
-	return node
 }
 
 // Exec executes the query on the entity.
