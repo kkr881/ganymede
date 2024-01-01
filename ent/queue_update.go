@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/rs/zerolog/log"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -974,12 +975,16 @@ func (quo *QueueUpdateOne) Save(ctx context.Context) (*Queue, error) {
 // SaveX is like Save, but panics if an error occurs.
 func (quo *QueueUpdateOne) SaveX(ctx context.Context) *Queue {
 	node, err := quo.Save(ctx)
+
+	if err == nil {
+		return node
+	}
+
 	if err != nil {
 		log.Error().Err(err).Msg("error queue update saveX")
 		// panic(err)
-	} else {
-		return node
 	}
+	return node
 }
 
 // Exec executes the query on the entity.
